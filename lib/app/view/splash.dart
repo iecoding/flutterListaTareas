@@ -28,8 +28,14 @@ class SplashPage extends StatelessWidget {
               decoration: const BoxDecoration(color: Colors.amber),
             ),
             const SizedBox(height: 10,width: 10,),
-            const Image(image: AssetImage('assets/logo.png')),
-            Image.asset('assets/logo.png', width:200, height: 100, fit: BoxFit.fitHeight,)
+            const Image(image: AssetImage('assets/images/logo.png')),
+            Image.asset('assets/images/logo.png', width:200, height: 100, fit: BoxFit.fitHeight,),
+            ElevatedButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () {},
+                child: const Text('Text Button'))
           ],
         ),
 
