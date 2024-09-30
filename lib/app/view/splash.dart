@@ -11,20 +11,25 @@ class SplashPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Hola Mundo1111'),
             const Text('Hola Mundo'),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Hola Mundo222'),
-                Text('Hola Mundo'),
-              ],
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Hola Mundo222'),
+                  Text('Hola Mundo'),
+                ],
+              ),
             ),
             Container(
               width: 200,
               height: 100,
               decoration: const BoxDecoration(color: Colors.amber),
-            )
+            ),
+            const SizedBox(height: 10,width: 10,),
+            const Image(image: AssetImage('assets/logo.png')),
+            Image.asset('assets/logo.png', width:200, height: 100, fit: BoxFit.fitHeight,)
           ],
         ),
 
