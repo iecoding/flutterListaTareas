@@ -1,4 +1,5 @@
-import 'package:domestika/app/view/home.dart';
+import 'package:lista_tareas/app/view/home.dart';
+import 'package:lista_tareas/app/view/splash.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SplashPage(),
     );
   }
 }
