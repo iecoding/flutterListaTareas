@@ -6,40 +6,38 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text('Hola Mundo'),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Hola Mundo222'),
-                  Text('Hola Mundo'),
-                ],
-              ),
-            ),
-            Container(
-              width: 200,
-              height: 100,
-              decoration: const BoxDecoration(color: Colors.amber),
-            ),
-            const SizedBox(height: 10,width: 10,),
-            const Image(image: AssetImage('assets/images/logo.png')),
-            Image.asset('assets/images/logo.png', width:200, height: 100, fit: BoxFit.fitHeight,),
-            ElevatedButton(
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.blue),
+      body: Column(
+        children: [
+            Row(
+              children: [
+                Image.asset(
+                    'assets/images/shape.png',
+                  width: 141,
+                  height: 129,
                 ),
-                onPressed: () {},
-                child: const Text('Text Button'))
-          ],
+              ],
+            ),
+            const SizedBox(height: 79),
+            Image.asset(
+              'assets/images/onboarding-image.png',
+              width: 180,
+              height: 168,
+            ),
+          const SizedBox(height: 99),
+          Text('Lista de Tareas', style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontSize: 18,
+              fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 21),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              'La mejor forma para que no se te olvide nada es anotarlo. Guardar tus tareas y ve completando poco a poco para aumentar tu productividad.',
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
         ),
-
-      ),
     );
   }
 }
