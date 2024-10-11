@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: SplashPage(),
+      home: const SplashPage(),
     );
   }
 }
