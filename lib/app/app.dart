@@ -16,12 +16,34 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: primary),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: primary,
+          primary: primary,
+          secondary: primary,
+        ),
         scaffoldBackgroundColor: backgroundColor,
         textTheme: Theme.of(context).textTheme.apply(
           fontFamily: 'Poppins',
           bodyColor: textColor,
           displayColor: textColor,
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Colors.transparent,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(
+              double.infinity,
+              54,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            )
+          )
         ),
         useMaterial3: true,
       ),
