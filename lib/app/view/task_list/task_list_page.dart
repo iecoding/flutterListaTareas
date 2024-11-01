@@ -27,13 +27,18 @@ class TaskListPage extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        builder: (_) => const _NewTaskModal(),
+        builder: (_) => _NewTaskModal(onTaskCreated: (Task task) {
+          print(task.title);
+        },),
     );
   }
 }
 
 class _NewTaskModal extends StatelessWidget {
-  const _NewTaskModal({Key? key}) : super(key: key);
+  _NewTaskModal({Key? key, required this.onTaskCreated}) : super(key: key);
+
+  final _controller = TextEditingController();
+  final void Function(Task task) onTaskCreated;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class _NewTaskModal extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 33,
         vertical: 23,
-      ),
+      ) + MediaQuery.of(context).viewInsets,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(21)),
           color: Colors.white,
@@ -50,9 +55,10 @@ class _NewTaskModal extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          H1('Nueva Tarea'),
+          const H1('Nueva Tarea'),
           const SizedBox(height: 26),
           TextField(
+            controller: _controller,
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
@@ -64,7 +70,13 @@ class _NewTaskModal extends StatelessWidget {
           ),
           const SizedBox(height: 26),
           ElevatedButton(
-            onPressed: (){},
+            onPressed: (){
+              if(_controller.text.isNotEmpty) {
+                final task = Task(_controller.text);
+                onTaskCreated(task);
+                Navigator.of(context).pop();
+              }
+            },
             child: const Text('Guardar'),
           )
         ],
