@@ -4,16 +4,33 @@ import 'package:lista_tareas/app/model/task.dart';
 import '../components/h1.dart';
 import '../components/shape.dart';
 
-class TaskListPage extends StatelessWidget {
+class TaskListPage extends StatefulWidget {
   const TaskListPage({Key? key}) : super(key: key);
+
+  @override
+  State<TaskListPage> createState() => _TaskListPageState();
+}
+
+class _TaskListPageState extends State<TaskListPage> {
+
+  final taskList = <Task> [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Column(
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Header(),
-          Expanded(child: _TaskList()),
+          const _Header(),
+          Expanded(
+              child: _TaskList(
+                taskList,
+                onTaskDoneChange: (task) {
+                  task.done = !task.done;
+                  setState(() {});
+                },
+              )
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -28,7 +45,9 @@ class TaskListPage extends StatelessWidget {
         context: context,
         isScrollControlled: true,
         builder: (_) => _NewTaskModal(onTaskCreated: (Task task) {
-          print(task.title);
+          setState(() {
+            taskList.add(task);
+          });
         },),
     );
   }
@@ -88,37 +107,14 @@ class _NewTaskModal extends StatelessWidget {
 
 
 
-class _TaskList extends StatefulWidget {
-  const _TaskList({
-    super.key,
-  });
+class _TaskList extends StatelessWidget {
+  const _TaskList(this.taskList, {
+    Key? key,
+    required this.onTaskDoneChange,
+  }): super(key: key);
 
-  @override
-  State<_TaskList> createState() => _TaskListState();
-}
-
-class _TaskListState extends State<_TaskList> {
-  final taskList = <Task> [
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-    Task('Sacar al perro'),
-  ];
+  final List<Task> taskList;
+  final void Function(Task task) onTaskDoneChange;
 
   @override
   Widget build(BuildContext context) {
@@ -132,10 +128,7 @@ class _TaskListState extends State<_TaskList> {
             child: ListView.separated(
               itemBuilder: (_, index) => _TaskItem(
                 taskList[index],
-                onTap: () {
-                  taskList[index].done = !taskList[index].done;
-                  setState(() {});
-                },
+                onTap: () => onTaskDoneChange(taskList[index]),
               ),
               separatorBuilder: (_, __) => const SizedBox(height: 16,),
               itemCount: taskList.length,),
@@ -148,8 +141,8 @@ class _TaskListState extends State<_TaskList> {
 
 class _Header extends StatelessWidget {
   const _Header({
-    super.key,
-  });
+    Key? key,
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
