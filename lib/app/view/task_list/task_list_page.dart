@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lista_tareas/app/model/task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,8 +55,14 @@ class _TaskListPageState extends State<TaskListPage> {
         context: context,
         isScrollControlled: true,
         builder: (_) => _NewTaskModal(onTaskCreated: (Task task) {
-          setState(() {
+          setState(() async {
             taskList.add(task);
+            final SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setStringList(
+                'tasks', taskList.map((e) => jsonEncode(e.toJson())).toList());
+
+            final taskStrings = prefs.getStringList('tasks');
+            final newTaskList = taskStrings?.map((e) => Task(jsonDecode(e))).toList();
           });
         },),
     );
