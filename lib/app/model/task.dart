@@ -2,8 +2,8 @@ class Task {
   Task(this.title, {this.done = false});
 
   Task.fromJson(Map<String, dynamic>) {
-    title: json['title'];
-    done: json[done];
+    title = json['title'];
+    done = json[done];
   }
 
   late final String title;
