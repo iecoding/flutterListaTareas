@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_tareas/app/model/task.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/h1.dart';
 import '../components/shape.dart';
@@ -14,6 +15,13 @@ class TaskListPage extends StatefulWidget {
 class _TaskListPageState extends State<TaskListPage> {
 
   final taskList = <Task> [];
+
+  @override
+  Future<void> initState() async {
+    // Obtain shared preferences.
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
