@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:lista_tareas/app/model/task.dart';
+import 'package:lista_tareas/app/repository/task_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/h1.dart';
@@ -15,15 +16,7 @@ class TaskListPage extends StatefulWidget {
 }
 
 class _TaskListPageState extends State<TaskListPage> {
-
-  final taskList = <Task> [];
-
-  @override
-  Future<void> initState() async {
-    // Obtain shared preferences.
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    super.initState();
-  }
+  final TaskRepository taskRepository = TaskRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +26,28 @@ class _TaskListPageState extends State<TaskListPage> {
         children: [
           const _Header(),
           Expanded(
-              child: _TaskList(
-                taskList,
-                onTaskDoneChange: (task) {
-                  task.done = !task.done;
-                  setState(() {});
-                },
+              child: FutureBuilder<List<Task>>(
+                future: taskRepository.getTasks(),
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text('No hay tareas'),
+                    );
+                  }
+                  return _TaskList(
+                    snapshot.data!,
+                    onTaskDoneChange: (task) {
+                      task.done = !task.done;
+                      taskRepository.saveTasks(snapshot.data!);
+                      setState(() {});
+                    },
+                  );
+                }
               )
           ),
         ],
@@ -54,16 +63,10 @@ class _TaskListPageState extends State<TaskListPage> {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        builder: (_) => _NewTaskModal(onTaskCreated: (Task task) {
-          setState(() async {
-            taskList.add(task);
-            final SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setStringList(
-                'tasks', taskList.map((e) => jsonEncode(e.toJson())).toList());
-
-            final taskStrings = prefs.getStringList('tasks');
-            final newTaskList = taskStrings?.map((e) => Task(jsonDecode(e))).toList();
-          });
+        builder: (_) => _NewTaskModal(
+          onTaskCreated: (Task task) {
+            taskRepository.addTask(task);
+            setState(() {});
         },),
     );
   }

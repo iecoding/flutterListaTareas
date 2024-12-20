@@ -29,7 +29,7 @@ class SplashPage extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return TaskListPage();
+                return const TaskListPage();
               }));
             },
             child: const Padding(
