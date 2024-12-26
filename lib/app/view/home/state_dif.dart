@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show ChangeNotifierProvider, Provider;
+import 'package:provider/provider.dart';
 
 class StatePage extends StatelessWidget {
   const StatePage({Key? key}) : super(key: key);
@@ -17,20 +17,18 @@ class StatePage extends StatelessWidget {
               _EmailTextField(),
               SizedBox(height: 20),
               _SendButton(),
-              SizedBox(height: 20,),
-              _EmailText()
+              SizedBox(height: 20),
+              _EmailText(),
             ],
           ),
-        )
+        ),
       ),
     );
   }
 }
 
 class _EmailText extends StatelessWidget {
-  const _EmailText({
-    super.key,
-  });
+  const _EmailText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +38,7 @@ class _EmailText extends StatelessWidget {
 }
 
 class _SendButton extends StatelessWidget {
-  const _SendButton({
-    super.key,
-  });
+  const _SendButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +52,12 @@ class _SendButton extends StatelessWidget {
 }
 
 class _EmailTextField extends StatelessWidget {
-  const _EmailTextField({
-    super.key,
-  });
+  const _EmailTextField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (value) => Provider.of<EmailProvider>(context).email = value,
+      onChanged: (value) => context.read<EmailProvider>().email = value,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
