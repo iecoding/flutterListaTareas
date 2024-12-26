@@ -33,7 +33,9 @@ class _EmailText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final email = context.watch<EmailProvider>().email;
-    return Text('El email introducido es: $email');
+    return Consumer<EmailProvider>(builder: (_, emailProvider, child) {
+      return Text('El email introducido es: ${emailProvider.email}');
+    });
   }
 }
 
