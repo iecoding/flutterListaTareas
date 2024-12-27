@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const StatePage(),
+        home: const SplashPage(),
       ),
     );
   }
